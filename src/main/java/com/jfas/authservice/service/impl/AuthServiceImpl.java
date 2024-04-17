@@ -1,5 +1,6 @@
 package com.jfas.authservice.service.impl;
 
+import com.jfas.authservice.exception.EmailAlreadyExistsException;
 import com.jfas.authservice.jwt.AuthResponse;
 import com.jfas.authservice.jwt.SignUpRequest;
 import com.jfas.authservice.model.User;
@@ -18,7 +19,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse signUp(SignUpRequest signUpRequest) {
         if (userRepository.findByEmail(signUpRequest.email()).isPresent()) {
-            throw new IllegalArgumentException("The email " + signUpRequest.email() + " is already in use");
+            throw new EmailAlreadyExistsException("The email " + signUpRequest.email() + " is already in use");
         }
 
         User user = User.builder()
