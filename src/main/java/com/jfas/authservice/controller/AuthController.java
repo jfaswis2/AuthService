@@ -3,6 +3,7 @@ package com.jfas.authservice.controller;
 import com.jfas.authservice.jwt.AuthResponse;
 import com.jfas.authservice.jwt.SignUpRequest;
 import com.jfas.authservice.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<AuthResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<AuthResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         return ResponseEntity.ok(authService.signUp(signUpRequest));
     }
 }
