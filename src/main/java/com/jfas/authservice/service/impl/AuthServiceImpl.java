@@ -1,6 +1,7 @@
 package com.jfas.authservice.service.impl;
 
 import com.jfas.authservice.exception.EmailAlreadyExistsException;
+import com.jfas.authservice.exception.EmailNotFoundException;
 import com.jfas.authservice.jwt.AuthResponse;
 import com.jfas.authservice.jwt.JwtService;
 import com.jfas.authservice.jwt.SignInRequest;
@@ -48,10 +49,12 @@ public class AuthServiceImpl implements AuthService {
     //LOGIN
     @Override
     public AuthResponse signIn(SignInRequest signInRequest) {
+        UserDetails user = userRepository.findByEmail(signInRequest.email())
+                .orElseThrow(() -> new EmailNotFoundException("The email " + signInRequest.email() + " was not found"));
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.email(), signInRequest.password()));
-        UserDetails user = userRepository.findByEmail(signInRequest.email())
-                .orElseThrow();//TODO EXCEPTION
+
         String token = jwtService.getToken(user);
         return AuthResponse.builder()
                 .token(token)

@@ -45,4 +45,13 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<Object> handlerEmailNotFoundException(EmailNotFoundException exception,
+                                                                     WebRequest webRequest) {
+
+        ApiResponse apiResponse = new ApiResponse(exception.getMessage(), webRequest.getDescription(false));
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
 }
