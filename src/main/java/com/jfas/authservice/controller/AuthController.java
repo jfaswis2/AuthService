@@ -1,6 +1,7 @@
 package com.jfas.authservice.controller;
 
 import com.jfas.authservice.jwt.AuthResponse;
+import com.jfas.authservice.jwt.SignInRequest;
 import com.jfas.authservice.jwt.SignUpRequest;
 import com.jfas.authservice.service.AuthService;
 import jakarta.validation.Valid;
@@ -21,5 +22,10 @@ public class AuthController {
     @PostMapping(value = "/signup")
     public ResponseEntity<AuthResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         return ResponseEntity.ok(authService.signUp(signUpRequest));
+    }
+
+    @PostMapping(value = "/signin")
+    public ResponseEntity<AuthResponse> signIn(@RequestBody @Valid SignInRequest signInRequest) {
+        return ResponseEntity.ok(authService.signIn(signInRequest));
     }
 }
